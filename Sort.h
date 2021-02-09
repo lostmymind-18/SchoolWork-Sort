@@ -20,6 +20,7 @@ private:
 
 public:
     static void ShellSort(T* start, T* end, int* num_segment_list, int num_phases) ;
+    static void SelectionSort(T* start, T* end);
 };
 template<class T>
 void Sorting<T>::sortSegment(T* start, T* end, int segment_idx)
@@ -46,5 +47,26 @@ void Sorting<T>::ShellSort(T* start, T* end, int* num_segment_list, int num_phas
         sortSegment(start, end, *(num_segment_list + num_phases - i - 1));
         printArray(start, end);
     }
+}
+template<class T>
+void Sorting<T>::SelectionSort(T* start, T* end)
+{
+    int n = end - start;
+    for(int i = 0; i < n; i++)
+    {
+        int min = i;
+        for(int j = i+1; j < n; j++)
+        {
+            if(start[min] > start[j])
+                min = j;
+        }
+        if(min != i)
+        {
+            int temp = start[min];
+            start[min] = start[i];
+            start[i] = temp;
+        }
+    }
+    printArray(start, end);
 }
 #endif /* SORTING_H */
