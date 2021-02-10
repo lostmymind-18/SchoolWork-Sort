@@ -21,6 +21,7 @@ private:
 public:
     static void ShellSort(T* start, T* end, int* num_segment_list, int num_phases) ;
     static void SelectionSort(T* start, T* end);
+    static void QuickSort(T* start, T* end);
 };
 template<class T>
 void Sorting<T>::sortSegment(T* start, T* end, int segment_idx)
@@ -67,6 +68,31 @@ void Sorting<T>::SelectionSort(T* start, T* end)
             start[i] = temp;
         }
     }
+    printArray(start, end);
+}
+
+template<class T>
+void Sorting<T>::QuickSort(T* start, T* end)
+{
+    //First element as Pivot
+    int n = end - start;
+    if (n <= 1) return;
+    int i = 0, j = 1;
+    for (j; j < n; j++)
+    {
+        if (start[j] < start[0])
+        {
+            i++;
+            int temp = start[j];
+            start[j] = start[i];
+            start[i] = temp;
+        }
+    }
+    int temp = *start;
+    *start = start[i];
+    start[i] = temp;
+    QuickSort(start, &start[i]);
+    QuickSort(&start[i]+1, end);
     printArray(start, end);
 }
 #endif /* SORTING_H */
