@@ -22,6 +22,7 @@ public:
     static void ShellSort(T* start, T* end, int* num_segment_list, int num_phases) ;
     static void SelectionSort(T* start, T* end);
     static void QuickSort(T* start, T* end);
+    static void MergeSort(T* start, T* end);
 };
 template<class T>
 void Sorting<T>::sortSegment(T* start, T* end, int segment_idx)
@@ -93,6 +94,37 @@ void Sorting<T>::QuickSort(T* start, T* end)
     start[i] = temp;
     QuickSort(start, &start[i]);
     QuickSort(&start[i]+1, end);
+    printArray(start, end);
+}
+template<class T>
+void Sorting<T>::MergeSort(T* start, T* end)
+{
+    int n = end - start;
+    if (n <= 1) return;
+    MergeSort(start, start + n / 2);
+    MergeSort(start + n / 2, end);
+    T* array1 = new T[n / 2];
+    T* array2 = new T[n - n / 2];
+    for (int i = 0; i < n / 2; i++)
+        array1[i] = start[i];
+    for (int i = 0; i < n - n / 2; i++)
+        array2[i] = start[i + n / 2];
+    int i = 0, j = 0;
+    for (int z = 0; z < n; z++)
+    {
+        if (j < (n - n/2) && (array1[i] > array2[j] || i >= n / 2))
+        {
+            start[z] = array2[j];
+            j++;
+        }
+        else if (i < n/2 && (array1[i] <= array2[j] || j >= (n - n / 2)))
+        {
+            start[z] = array1[i];
+            i++;
+        }
+    }
+    delete array1;
+    delete array2;
     printArray(start, end);
 }
 #endif /* SORTING_H */
